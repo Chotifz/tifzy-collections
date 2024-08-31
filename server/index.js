@@ -3,20 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-
-// database connection
-
-mongoose
-  .connect(
-    `mongodb+srv://chotife:${process.env.db_password}@cluster0.fryu8.mongodb.net/`
-  )
-  .then(() => {
-    console.log("Mongo db is connected");
-    app.listen(PORT, () =>
-      console.log("Server running on port http://localhost:5000")
-    );
-  })
-  .catch((error) => console.log(error));
+const authRouter = require("./routes/auth/auth-routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,3 +25,17 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+
+app.use("/api/auth", authRouter);
+
+mongoose
+  .connect(
+    `mongodb+srv://chotife:${process.env.db_password}@cluster0.fryu8.mongodb.net/`
+  )
+  .then(() => {
+    console.log("Mongo db is connected");
+    app.listen(PORT, () =>
+      console.log("Server running on port http://localhost:5000")
+    );
+  })
+  .catch((error) => console.log(error));
