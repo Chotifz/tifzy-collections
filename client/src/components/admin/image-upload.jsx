@@ -14,6 +14,7 @@ function ProductImageUpload({
   uploadImageUrl,
   setUploadImageUrl,
   setImageLoading,
+  isEditMode,
 }) {
   const inputRef = useRef(null);
 
@@ -38,7 +39,6 @@ function ProductImageUpload({
       inputRef.current.value = "";
     }
   }
-  console.log(imageFile);
 
   async function uploadImageToCloudinary() {
     setImageLoading(true);
@@ -48,7 +48,7 @@ function ProductImageUpload({
       "http://localhost:5000/api/admin/products/upload-image",
       data
     );
-    console.log(response, "response");
+
     if (response?.data?.success) setUploadImageUrl(response.data.result.url);
     setImageLoading(false);
   }
@@ -70,11 +70,12 @@ function ProductImageUpload({
           className="hidden"
           ref={inputRef}
           onChange={handleImageChange}
+          disabled={isEditMode}
         />
         {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col items-center justify-center h-32  cursor-pointer"
+            className={` flex flex-col items-center justify-center h-32  cursor-pointer`}
           >
             <UploadCloudIcon className="w-10 h-10 mb-2 text-muted-foreground" />
             <span>Drag & drop or click to upload image</span>

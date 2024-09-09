@@ -28,17 +28,37 @@ const handleImageupload = async (req, res) => {
 
 const addProduct = async (req, res) => {
   try {
-    const { image, title, category, brand, price, totalStock } = req.body;
-    if (!image || !title || !category || !brand || !price || !totalStock) {
+    const {
+      image,
+      title,
+      description,
+      category,
+      brand,
+      price,
+      salePrice,
+      totalStock,
+    } = req.body;
+    console.log(req.body);
+    if (
+      !image ||
+      !title ||
+      !description ||
+      !category ||
+      !brand ||
+      !price ||
+      !totalStock
+    ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const createNewProduct = new Product({
       image,
       title,
+      description,
       category,
       brand,
       price,
+      salePrice,
       totalStock,
     });
 
@@ -76,8 +96,16 @@ const fetchAllProduct = async (req, res) => {
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { image, description, title, category, brand, price, totalStock } =
-      req.body;
+    const {
+      image,
+      description,
+      title,
+      category,
+      brand,
+      price,
+      salePrice,
+      totalStock,
+    } = req.body;
 
     const findProduct = await Product.findById(id);
     if (!findProduct)
@@ -90,7 +118,9 @@ const editProduct = async (req, res) => {
     findProduct.description = description || findProduct.description;
     findProduct.category = category || findProduct.category;
     findProduct.brand = brand || findProduct.brand;
-    findProduct.price = price || findProduct.price;
+    findProduct.price = price === "" ? 0 : price || findProduct.price;
+    findProduct.salePrice =
+      salePrice === "" ? 0 : salePrice || findProduct.salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
     findProduct.image = image || findProduct.image;
 
@@ -110,7 +140,7 @@ const editProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id);
+    const product = await Product.findByIdAndDelete(id);
 
     if (!product)
       return res.status(404).json({

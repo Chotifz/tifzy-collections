@@ -10,15 +10,17 @@ const initialState = {
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
+    console.log(formData);
     const result = await axios.post(
       "http://localhost:5000/api/admin/products/add",
       formData,
       {
         headers: {
-          "Content-Type": "application/json", // Format untuk mengirim JSON
+          "Content-Type": "application/json",
         },
       }
     );
+    console.log(result?.data);
     return result?.data;
   }
 );
@@ -34,7 +36,7 @@ export const fetchAllProduct = createAsyncThunk(
 export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
-    const result = await axios.put(
+    const result = await axios.patch(
       `http://localhost:5000/api/admin/products/edit/${id}`,
       formData,
       {
@@ -69,6 +71,7 @@ const adminProductSlice = createSlice({
       .addCase(fetchAllProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.productList = action?.payload?.data;
+        console.log(action?.payload?.data);
       })
       .addCase(fetchAllProduct.rejected, (state, action) => {
         console.log(action.payload);
