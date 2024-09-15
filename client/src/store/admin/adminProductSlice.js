@@ -20,7 +20,7 @@ export const addNewProduct = createAsyncThunk(
         },
       }
     );
-    console.log(result?.data);
+
     return result?.data;
   }
 );
@@ -71,7 +71,6 @@ const adminProductSlice = createSlice({
       .addCase(fetchAllProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.productList = action?.payload?.data;
-        console.log(action?.payload?.data);
       })
       .addCase(fetchAllProduct.rejected, (state, action) => {
         console.log(action.payload);

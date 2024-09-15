@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import ShopHeader from "./header";
+import ShopHeader from "./ShopHeader";
 
 const ShopLayout = () => {
   return (

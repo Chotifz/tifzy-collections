@@ -12,9 +12,10 @@ import { addProductFormElements } from "@/config";
 import { toast } from "@/hooks/use-toast";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProduct,
-} from "@/store/admin/product-slice";
+} from "@/store/admin/adminProductSlice";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -77,7 +78,11 @@ const AdminProducts = () => {
   }
 
   function handleDelete(getCurrentProductId) {
-    console.log(getCurrentProductId);
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchAllProduct());
+      }
+    });
   }
 
   function isFormValid() {
