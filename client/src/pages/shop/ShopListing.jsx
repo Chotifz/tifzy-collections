@@ -1,3 +1,4 @@
+import ProductDetailDialog from "@/components/shop/ProductDetailDialog";
 import ProductFilter from "@/components/shop/ProductFilter";
 import ShoppingProductTile from "@/components/shop/ShoppingProductTile";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchFilteredProducts } from "@/store/shop/productsSlice";
+import {
+  fetchDetailedProducts,
+  fetchFilteredProducts,
+} from "@/store/shop/productsSlice";
 import { ArrowUpDownIcon } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -30,10 +34,13 @@ function createSearchParamsHelper(filterParams) {
 
 function ShopListing() {
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.shopProducts);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts
+  );
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [openDetailDialog, setOpenDetailDialog] = useState(false);
 
   const handleSort = (value) => {
     setSort(value);
@@ -59,6 +66,12 @@ function ShopListing() {
     setFilter(copyFilter);
     sessionStorage.setItem("filter", JSON.stringify(copyFilter));
   };
+
+  function handleGetProductDetail(getCurrentProductId) {
+    console.log(getCurrentProductId);
+    dispatch(fetchDetailedProducts(getCurrentProductId));
+  }
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilter(JSON.parse(sessionStorage.getItem("filter")) || {});
@@ -78,7 +91,11 @@ function ShopListing() {
       );
   }, [dispatch, sort, filter]);
 
-  console.log(filter, "filter", searchParams);
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailDialog(true);
+  }, [productDetails]);
+
+  console.log(productDetails, "Detail Product");
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filter={filter} handleFilter={handleFilter} />
@@ -121,11 +138,17 @@ function ShopListing() {
                 <ShoppingProductTile
                   key={productItem._id}
                   product={productItem}
+                  handleGetProductDetail={handleGetProductDetail}
                 />
               ))
             : null}
         </div>
       </div>
+      <ProductDetailDialog
+        open={openDetailDialog}
+        setOpen={setOpenDetailDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 }

@@ -27,6 +27,9 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to my API abangkuh");
+});
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRoutes);
 app.use("/api/shop/products", shopProductRoutes);
