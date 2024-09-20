@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
+import { Input } from "../ui/input";
 
 function ProductDetailDialog({ open, setOpen, productDetails }) {
   return (
@@ -40,18 +41,28 @@ function ProductDetailDialog({ open, setOpen, productDetails }) {
               </p>
             ) : null}
           </div>
+          <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-0.5">
+              <StarIcon className="w-5 h-5 fill-primary" />
+              <StarIcon className="w-5 h-5 fill-primary" />
+              <StarIcon className="w-5 h-5 fill-primary" />
+              <StarIcon className="w-5 h-5 fill-primary" />
+              <StarIcon className="w-5 h-5 fill-primary " />
+            </div>
+            <span className="text-muted-foreground">(5.0)</span>
+          </div>
           <div className="mt-5 mb-5">
             <Button className="w-full">Add To Cart</Button>
           </div>
           <Separator />
-          <div className="max-h-[19rem] overflow-auto">
+          <div className="max-h-[19rem] overflow-auto ">
             <h2 className="text-xl font-bold mb-4">Reviews</h2>
             <div className="grid gap-6">
               <div className="flex gap-6">
                 <Avatar className="w-10 h-10 border">
                   <AvatarFallback>SM</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-1">
+                <div className="grid ">
                   <div className="flex items-center gap-2">
                     <h3 className="font-bold">User Name</h3>
                   </div>
@@ -67,6 +78,71 @@ function ProductDetailDialog({ open, setOpen, productDetails }) {
                   </p>
                 </div>
               </div>
+              <div className="flex gap-6">
+                <Avatar className="w-10 h-10 border">
+                  <AvatarFallback>SM</AvatarFallback>
+                </Avatar>
+                <div className="grid ">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold">User Name</h3>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                  </div>
+                  <p className="text-muted-foreground">
+                    This is an awesome product
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-6">
+                <Avatar className="w-10 h-10 border">
+                  <AvatarFallback>SM</AvatarFallback>
+                </Avatar>
+                <div className="grid ">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold">User Name</h3>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                  </div>
+                  <p className="text-muted-foreground">
+                    This is an awesome product
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-6">
+                <Avatar className="w-10 h-10 border">
+                  <AvatarFallback>SM</AvatarFallback>
+                </Avatar>
+                <div className="grid ">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold">User Name</h3>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                  </div>
+                  <p className="text-muted-foreground">
+                    This is an awesome product
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex gap-2">
+              <Input placeholder="Share your thoughts . . ." />
+              <Button>Submit</Button>
             </div>
           </div>
         </div>
