@@ -28,8 +28,7 @@ const addToCart = async (req, res) => {
     }
 
     const findCurrentProductIndex = cart.items.findIndex(
-      (item) => item.productId,
-      toString() === productId
+      (item) => item.productId.toString() === productId
     );
 
     if (findCurrentProductIndex === -1) {
@@ -64,7 +63,7 @@ const fetchCartItems = async (req, res) => {
     }
 
     const cart = await Cart.findOne({ userId }).populate({
-      path: "item.productId",
+      path: "items.productId",
       select: "image title price salePrice",
     });
 
@@ -193,18 +192,15 @@ const deleteCartItem = async (req, res) => {
       });
     }
 
-    cart.items.filter((item) => item.productId._id.toString() !== productId);
+    cart.items = cart.items.filter(
+      (item) => item.productId._id.toString() !== productId
+    );
 
     await cart.save();
 
-    await Cart.populate({
-      path: "item.productId",
+    await cart.populate({
+      path: "items.productId",
       select: "image title price salePrice",
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "Product in cart was deleted",
     });
 
     const populateCartItems = cart.items.map((item) => ({

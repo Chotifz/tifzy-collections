@@ -68,7 +68,10 @@ function App() {
             </CheckAuth>
           }
         >
-          <Route path="home" element={<ShopHome />} />
+          <Route path="home" element={<ShopHome />}>
+            {" "}
+            <Route path="listing" element={<ShopListing />} />
+          </Route>
           <Route path="listing" element={<ShopListing />} />
           <Route path="checkout" element={<ShopCheckout />} />
           <Route path="account" element={<ShopAccount />} />

@@ -10,7 +10,11 @@ const initialState = {
 const shoppingProductSlice = createSlice({
   name: "shoppingProducts",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductDetails: (state) => {
+      state.productDetails = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFilteredProducts.pending, (state, action) => {
@@ -47,7 +51,7 @@ export const fetchFilteredProducts = createAsyncThunk(
     });
 
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products?${query}`
+      `http://localhost:5001/api/shop/products?${query}`
     );
     return result?.data;
   }
@@ -57,10 +61,11 @@ export const fetchDetailedProducts = createAsyncThunk(
   "/products/fetchDetailedProduct",
   async (id) => {
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/${id}`
+      `http://localhost:5001/api/shop/products/${id}`
     );
     return result?.data;
   }
 );
 
+export const { setProductDetails } = shoppingProductSlice.actions;
 export default shoppingProductSlice.reducer;

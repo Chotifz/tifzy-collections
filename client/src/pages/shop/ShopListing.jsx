@@ -10,9 +10,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
+import { useToast } from "@/hooks/use-toast";
+import { addToCart, fetchCartItems } from "@/store/shop/cartSlice";
 import {
   fetchDetailedProducts,
   fetchFilteredProducts,
+  setProductDetails,
 } from "@/store/shop/productsSlice";
 import { ArrowUpDownIcon } from "lucide-react";
 
@@ -37,10 +40,12 @@ function ShopListing() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+  const { user } = useSelector((state) => state.auth);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailDialog, setOpenDetailDialog] = useState(false);
+  const { toast } = useToast();
 
   const handleSort = (value) => {
     setSort(value);
@@ -68,10 +73,30 @@ function ShopListing() {
   };
 
   function handleGetProductDetail(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchDetailedProducts(getCurrentProductId));
   }
 
+  function handleAddToCart(getCurrentProductId) {
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast({
+          title: "Product is added to cart",
+        });
+      }
+    });
+  }
+
+  function handleDiaolgClose() {
+    setOpenDetailDialog(false);
+    dispatch(setProductDetails());
+  }
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilter(JSON.parse(sessionStorage.getItem("filter")) || {});
@@ -95,7 +120,6 @@ function ShopListing() {
     if (productDetails !== null) setOpenDetailDialog(true);
   }, [productDetails]);
 
-  console.log(productDetails, "Detail Product");
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filter={filter} handleFilter={handleFilter} />
@@ -139,6 +163,7 @@ function ShopListing() {
                   key={productItem._id}
                   product={productItem}
                   handleGetProductDetail={handleGetProductDetail}
+                  handleAddToCart={handleAddToCart}
                 />
               ))
             : null}
@@ -146,8 +171,9 @@ function ShopListing() {
       </div>
       <ProductDetailDialog
         open={openDetailDialog}
-        setOpen={setOpenDetailDialog}
+        setOpen={handleDiaolgClose}
         productDetails={productDetails}
+        handleAddToCart={handleAddToCart}
       />
     </div>
   );
