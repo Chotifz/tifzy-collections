@@ -1,9 +1,10 @@
 import { StarIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 function ProductDetailDialog({
   open,
@@ -25,12 +26,12 @@ function ProductDetailDialog({
         </div>
         <div className="">
           <div>
-            <h1 className="text-3xl font font-extrabold">
+            <DialogTitle className="text-3xl font font-extrabold">
               {productDetails?.title}
-            </h1>
-            <p className="text-muted-foreground  text-2xl my-2 lg:my-5">
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground  text-2xl my-2 lg:my-5">
               {productDetails?.description}
-            </p>
+            </DialogDescription>
           </div>
           <div className="flex items-center justify-between">
             <p

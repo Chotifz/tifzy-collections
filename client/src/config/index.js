@@ -1,3 +1,17 @@
+import {
+  BabyIcon,
+  BirdIcon,
+  BugIcon,
+  CatIcon,
+  CloudLightningIcon,
+  OrigamiIcon,
+  RabbitIcon,
+  ShirtIcon,
+  SquirrelIcon,
+  UmbrellaIcon,
+  WatchIcon,
+} from "lucide-react";
+
 export const registerFormControls = [
   {
     name: "userName",
@@ -168,4 +182,21 @@ export const sortOptions = [
   { id: "price-hightolow", label: "Price: High to Low" },
   { id: "title-atoz", label: "Title: A to Z" },
   { id: "title-ztoa", label: "Title: Z to A" },
+];
+
+export const categoriesWithIcon = [
+  { id: "man", label: "Man", icon: ShirtIcon },
+  { id: "woman", label: "Woman", icon: CloudLightningIcon },
+  { id: "accessories", label: "Accessories", icon: WatchIcon },
+  { id: "kids", label: "Kids", icon: BabyIcon },
+  { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
+];
+
+export const brandsWithIcon = [
+  { id: "nike", label: "Nike", icon: OrigamiIcon },
+  { id: "adidas", label: "Adidas", icon: SquirrelIcon },
+  { id: "puma", label: "Puma", icon: CatIcon },
+  { id: "levi", label: "Levi's", icon: RabbitIcon },
+  { id: "zara", label: "Zara", icon: BirdIcon },
+  { id: "h&m", label: "H&M", icon: BugIcon },
 ];

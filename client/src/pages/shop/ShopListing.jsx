@@ -42,17 +42,19 @@ function ShopListing() {
   );
   const { user } = useSelector((state) => state.auth);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filter, setFilter] = useState({});
+  const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [openDetailDialog, setOpenDetailDialog] = useState(false);
   const { toast } = useToast();
+
+  const categorySearchParam = searchParams.get("category");
 
   const handleSort = (value) => {
     setSort(value);
   };
 
   const handleFilter = (getSectionId, getCurrentOption) => {
-    let copyFilter = { ...filter };
+    let copyFilter = { ...filters };
     const indexOfCurrentSection = Object.keys(copyFilter).indexOf(getSectionId);
 
     if (indexOfCurrentSection === -1) {
@@ -68,8 +70,8 @@ function ShopListing() {
         copyFilter[getSectionId].push(getCurrentOption);
       } else copyFilter[getSectionId].splice(indexOfCurrentSection, 1);
     }
-    setFilter(copyFilter);
-    sessionStorage.setItem("filter", JSON.stringify(copyFilter));
+    setFilters(copyFilter);
+    sessionStorage.setItem("filters", JSON.stringify(copyFilter));
   };
 
   function handleGetProductDetail(getCurrentProductId) {
@@ -99,22 +101,22 @@ function ShopListing() {
   }
   useEffect(() => {
     setSort("price-lowtohigh");
-    setFilter(JSON.parse(sessionStorage.getItem("filter")) || {});
-  }, []);
+    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+  }, [categorySearchParam]);
 
   useEffect(() => {
-    if (filter && Object.keys(filter).length > 0) {
-      const createQueryString = createSearchParamsHelper(filter);
+    if (filters && Object.keys(filters).length > 0) {
+      const createQueryString = createSearchParamsHelper(filters);
       setSearchParams(new URLSearchParams(createQueryString));
     }
-  }, [filter]);
+  }, [filters]);
 
   useEffect(() => {
-    if (filter !== null && sort !== null)
+    if (filters !== null && sort !== null)
       dispatch(
-        fetchFilteredProducts({ filterParams: filter, sortParams: sort })
+        fetchFilteredProducts({ filterParams: filters, sortParams: sort })
       );
-  }, [dispatch, sort, filter]);
+  }, [dispatch, sort, filters]);
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailDialog(true);
@@ -122,7 +124,7 @@ function ShopListing() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
-      <ProductFilter filter={filter} handleFilter={handleFilter} />
+      <ProductFilter filters={filters} handleFilter={handleFilter} />
       <div className="bg-background w-full rounded-lg shadow-sm">
         <div className="p-4 border-b flex items-center justify-between">
           <h2 className="text-lg font-bold">All Products</h2>
@@ -156,6 +158,7 @@ function ShopListing() {
             </DropdownMenu>
           </div>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
