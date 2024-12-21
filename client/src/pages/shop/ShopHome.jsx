@@ -54,14 +54,14 @@ const ShopHome = () => {
     dispatch(fetchDetailedProducts(getCurrentProductId));
   }
 
-  function handleNavigateToListingPage(getCurrentItem, section) {
+  function handleNavigateToShopPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
     const currentFilter = {
       [section]: [getCurrentItem.id],
     };
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
-    navigate(`/shop/listing`);
+    navigate(`/shop`);
   }
 
   function handleDiaolgClose() {
@@ -97,7 +97,7 @@ const ShopHome = () => {
         title={"Shop by Category"}
         className={"lg:grid-cols-5"}
         section={"category"}
-        navigateToListingPage={handleNavigateToListingPage}
+        navigateToListingPage={handleNavigateToShopPage}
       />
       <section className="py-12 ">
         <div className="container mx-auto px-4">
@@ -129,7 +129,7 @@ const ShopHome = () => {
         title={"Shop by Brand"}
         className={"lg:grid-cols-6"}
         section={"brand"}
-        navigateToListingPage={handleNavigateToListingPage}
+        navigateToListingPage={handleNavigateToShopPage}
       />
     </div>
   );

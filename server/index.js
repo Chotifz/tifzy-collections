@@ -9,12 +9,12 @@ const shopProductRouter = require("./routes/shop/products-routes");
 const shopCartRouter = require("./routes/shop/cart-routes");
 const shopAddressRouter = require("./routes/shop/address-routes");
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE", "PATCH"],
+    origin: process.env.CLIENT_BASE_URL,
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: [
       "Content-Type",
       "Authorization",
@@ -39,9 +39,7 @@ app.use("/api/shop/cart", shopCartRouter);
 app.use("/api/shop/address", shopAddressRouter);
 
 mongoose
-  .connect(
-    `mongodb+srv://chotife:${process.env.db_password}@cluster0.fryu8.mongodb.net/`
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Mongo db is connected");
     app.listen(PORT, () =>

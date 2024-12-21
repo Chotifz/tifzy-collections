@@ -61,18 +61,15 @@ function App() {
           <Route path="products" element={<AdminProducts />} />
         </Route>
         <Route
-          path="/shop"
+          path="/"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <ShopLayout />
             </CheckAuth>
           }
         >
-          <Route path="home" element={<ShopHome />}>
-            {" "}
-            <Route path="listing" element={<ShopListing />} />
-          </Route>
-          <Route path="listing" element={<ShopListing />} />
+          <Route path="/" element={<ShopHome />} />
+          <Route path="shop" element={<ShopListing />} />
           <Route path="checkout" element={<ShopCheckout />} />
           <Route path="account" element={<ShopAccount />} />
         </Route>

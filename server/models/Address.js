@@ -12,4 +12,4 @@ const AddressSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Address", AddressSchema);
+module.exports = mongoose.model("Address", AddressSchema);
