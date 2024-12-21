@@ -3,11 +3,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const authRouter = require("./routes/auth/auth-routes");
-const adminProductsRouter = require("./routes/admin/products.routes");
-const shopProductRouter = require("./routes/shop/products-routes");
-const shopCartRouter = require("./routes/shop/cart-routes");
-const shopAddressRouter = require("./routes/shop/address-routes");
+
+const authRouter = require("../routes/auth/auth-routes");
+const adminProductsRouter = require("../routes/admin/products.routes");
+const shopProductRouter = require("../routes/shop/products-routes");
+const shopCartRouter = require("../routes/shop/cart-routes");
+const shopAddressRouter = require("../routes/shop/address-routes");
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -47,3 +49,5 @@ mongoose
     );
   })
   .catch((error) => console.log(error));
+
+module.exports = app;

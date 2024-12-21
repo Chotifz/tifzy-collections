@@ -1,11 +1,11 @@
 const express = require("express");
+const router = express.Router();
 const {
   fetchCartItems,
   addToCart,
   updateCartItemQty,
   deleteCartItem,
 } = require("../../controllers/shop/cart-controller");
-const router = express.Router();
 
 router.post("/add", addToCart);
 router.get("/:userId", fetchCartItems);

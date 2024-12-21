@@ -1,10 +1,9 @@
 const express = require("express");
+const router = express.Router();
 const {
   getFilteredProducts,
   getProductDetails,
 } = require("../../controllers/shop/products-controller");
-
-const router = express.Router();
 
 router.get("/", getFilteredProducts);
 router.get("/:id", getProductDetails);

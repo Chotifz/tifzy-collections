@@ -1,12 +1,11 @@
 const express = require("express");
+const router = express.Router();
 const {
   addAddress,
   editAddress,
   deleteAddress,
   fetchAllAddress,
 } = require("../../controllers/shop/address-controller");
-
-const router = express.Router();
 
 router.post("/add", addAddress);
 router.put("/update", editAddress);
