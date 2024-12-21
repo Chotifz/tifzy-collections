@@ -3,6 +3,7 @@ import authReducer from "./auth-slice";
 import adminProductsSlice from "./admin/adminProductSlice";
 import shopProductsSlice from "./shop/productsSlice";
 import shopCartSlice from "./shop/cartSlice";
+import shopAddressSlice from "./shop/addressSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     adminProducts: adminProductsSlice,
     shopProducts: shopProductsSlice,
     shopCart: shopCartSlice,
+    shopAddress: shopAddressSlice,
   },
 });
 

@@ -7,6 +7,31 @@ const initialState = {
   productDetails: null,
 };
 
+export const fetchFilteredProducts = createAsyncThunk(
+  "/products/fetchAllProduct",
+  async ({ filterParams, sortParams }) => {
+    const query = new URLSearchParams({
+      ...filterParams,
+      sortBy: sortParams,
+    });
+
+    const result = await axios.get(
+      `http://localhost:5001/api/shop/products?${query}`
+    );
+    return result?.data;
+  }
+);
+
+export const fetchDetailedProducts = createAsyncThunk(
+  "/products/fetchDetailedProduct",
+  async (id) => {
+    const result = await axios.get(
+      `http://localhost:5001/api/shop/products/${id}`
+    );
+    return result?.data;
+  }
+);
+
 const shoppingProductSlice = createSlice({
   name: "shoppingProducts",
   initialState,
@@ -41,31 +66,6 @@ const shoppingProductSlice = createSlice({
       });
   },
 });
-
-export const fetchFilteredProducts = createAsyncThunk(
-  "/products/fetchAllProduct",
-  async ({ filterParams, sortParams }) => {
-    const query = new URLSearchParams({
-      ...filterParams,
-      sortBy: sortParams,
-    });
-
-    const result = await axios.get(
-      `http://localhost:5001/api/shop/products?${query}`
-    );
-    return result?.data;
-  }
-);
-
-export const fetchDetailedProducts = createAsyncThunk(
-  "/products/fetchDetailedProduct",
-  async (id) => {
-    const result = await axios.get(
-      `http://localhost:5001/api/shop/products/${id}`
-    );
-    return result?.data;
-  }
-);
 
 export const { setProductDetails } = shoppingProductSlice.actions;
 export default shoppingProductSlice.reducer;
