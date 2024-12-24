@@ -8,7 +8,7 @@ const {
 } = require("../../controllers/shop/address-controller");
 
 router.post("/add", addAddress);
-router.put("/update", editAddress);
+router.put("/update/:userId/:addressId", editAddress);
 router.delete("/delete/:userId/:addressId", deleteAddress);
 router.get("/get/:userId", fetchAllAddress);
 

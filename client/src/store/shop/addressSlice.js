@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  addressList: [],
+  addressList: {},
 };
 
 export const addNewAddress = createAsyncThunk(
@@ -14,6 +14,7 @@ export const addNewAddress = createAsyncThunk(
       `${import.meta.env.VITE_API_URL}/api/shop/address/add`,
       formData
     );
+    console.log(response?.data);
     return response?.data;
   }
 );
@@ -29,16 +30,21 @@ export const fetchAllAddress = createAsyncThunk(
 );
 export const editAddress = createAsyncThunk(
   "address/editAddress",
-  async ({ userId, addressId, formData }) => {
-    const response = await axios.put(
-      `${
-        import.meta.env.VITE_API_URL
-      }/api/shop/address/update/${userId}/${addressId}`,
-      formData
-    );
-    return response?.data;
+  async ({ userId, addressId, formData }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/shop/address/update/${userId}/${addressId}`,
+        formData
+      );
+      return response?.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
+
 export const deleteAddress = createAsyncThunk(
   "address/deleteAddress",
   async ({ userId, addressId }) => {
@@ -51,25 +57,27 @@ export const deleteAddress = createAsyncThunk(
   }
 );
 
-export const addressSLice = createSlice({
+const addressSlice = createSlice({
   name: "address",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addNewAddress.pending, (state) => (state.isLoading = true))
-      .addCase(addNewAddress.fulfilled, (state, actions) => {
+      .addCase(addNewAddress.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addNewAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = actions?.payload.data;
       })
       .addCase(addNewAddress.rejected, (state) => {
         state.isLoading = false;
-        state.addressList = [];
       })
-      .addCase(fetchAllAddress.pending, (state) => (state.isLoading = true))
-      .addCase(fetchAllAddress.fulfilled, (state, actions) => {
+      .addCase(fetchAllAddress.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = actions?.payload.data;
+        state.addressList = action.payload.data;
       })
       .addCase(fetchAllAddress.rejected, (state) => {
         state.isLoading = false;
@@ -78,4 +86,4 @@ export const addressSLice = createSlice({
   },
 });
 
-export default addressSLice.reducer;
+export default addressSlice.reducer;

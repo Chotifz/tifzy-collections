@@ -18,6 +18,10 @@ import { useEffect, useState } from "react";
 import UserCartWrapper from "./UserCartWrapper";
 import { fetchCartItems } from "@/store/shop/cartSlice";
 import { Label } from "../ui/label";
+import { SigmaIcon } from "lucide-react";
+import { SquareSigmaIcon } from "lucide-react";
+import { ShoppingBagIcon } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 
 function MenuItems() {
   const navigate = useNavigate();
@@ -79,7 +83,7 @@ function HeaderRightContent() {
           variant="outline"
           size="icon"
         >
-          <ShoppingCart className="h-6 w-6" />
+          <ShoppingBag className="h-6 w-6" />
           <span className="sr-only">User cart</span>
         </Button>
         <UserCartWrapper
@@ -101,7 +105,7 @@ function HeaderRightContent() {
         <DropdownMenuContent side="right" className="w-56">
           <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+          <DropdownMenuItem onClick={() => navigate("/account")}>
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
@@ -121,10 +125,17 @@ const ShopHeader = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background ">
-      <div className="flex h-16 items-center justify-between px-4 md:px-4">
-        <Link to={"/"} className="flex items-center gap-2">
-          <HousePlug className="h-6 w-6" />
-          <span className="font-bold">Ecommerce</span>
+      <div className="flex h-16 items-center justify-between  ">
+        <Link to={"/"} className="flex items-end gap-1.5">
+          <SquareSigmaIcon size={38} />
+          <div className="flex flex-col items-center justify-center ">
+            <p className="text-2xl font-semibold font-serif tracking-wider">
+              TIFZY
+            </p>
+            <span className="font-medium tracking-wider text-xs -mt-2  ">
+              COLLECTIONS
+            </span>
+          </div>
         </Link>
 
         <Sheet>
