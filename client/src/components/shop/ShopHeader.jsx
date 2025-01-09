@@ -12,15 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { logoutUser } from "@/store/auth-slice";
 import { useEffect, useState } from "react";
 import UserCartWrapper from "./UserCartWrapper";
 import { fetchCartItems } from "@/store/shop/cartSlice";
 import { Label } from "../ui/label";
-import { SigmaIcon } from "lucide-react";
 import { SquareSigmaIcon } from "lucide-react";
-import { ShoppingBagIcon } from "lucide-react";
 import { ShoppingBag } from "lucide-react";
 
 function MenuItems() {
@@ -87,6 +85,7 @@ function HeaderRightContent() {
           <span className="sr-only">User cart</span>
         </Button>
         <UserCartWrapper
+          setOpenCartSheet={setOpenCartSheet}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
@@ -96,8 +95,9 @@ function HeaderRightContent() {
       </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
+          <Avatar>
+            <AvatarImage src="" alt="@shadcn" />
+            <AvatarFallback className="bg-sky-800 text-white font-extrabold">
               {user.userName[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -127,7 +127,9 @@ const ShopHeader = () => {
     <header className="sticky top-0 z-40 w-full border-b bg-background ">
       <div className="flex h-16 items-center justify-between  ">
         <Link to={"/"} className="flex items-end gap-1.5">
-          <SquareSigmaIcon size={38} />
+          <div className="border rounded-lg">
+            <img className="rounded-lg" width={34} src="/tblack.jpg" alt="" />
+          </div>
           <div className="flex flex-col items-center justify-center ">
             <p className="text-2xl font-semibold font-serif tracking-wider">
               TIFZY
